@@ -79,11 +79,26 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
+      var row = this.get(rowIndex);
+      var HAS_ONE = false;
+      for ( var i = 0; i < row.length; i++ ) {
+        if ( row[i] === 1 && !HAS_ONE ){
+          HAS_ONE = true;
+        } else if ( row[i] === 1 && HAS_ONE ){
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      var size = this.get('n');
+      for ( var i = 0 ; i < size ; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -94,11 +109,32 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      //this.get(i)[colIndex]
+      //get the n for size
+      //loop through for loop on rowIndex while keeping same colIndex
+      // if 2 exists  return true
+
+      var size = this.get('n');
+      var HAS_ONE = false;
+
+      for ( var i = 0; i < size; i++ ){
+        if (this.get(i)[colIndex] === 1 && !HAS_ONE){
+          HAS_ONE = true;
+        } else if ( this.get(i)[colIndex] === 1 && HAS_ONE) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var size = this.get('n');
+      for (var i = 0 ; i < size ; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -109,11 +145,50 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      var HAS_ONE = false;
+      //if major diagonal is negative
+      if (majorDiagonalColumnIndexAtFirstRow < 0) {
+        for (var i = 0 ; i < this.get('n') - Math.abs(majorDiagonalColumnIndexAtFirstRow) ; i++) {
+          if (this.get(i+Math.abs(majorDiagonalColumnIndexAtFirstRow))[i] === 1 && !HAS_ONE) {
+            HAS_ONE = true;
+          } else if (this.get(i+Math.abs(majorDiagonalColumnIndexAtFirstRow))[i] === 1 && HAS_ONE) {
+            return true;
+          }
+        }
+      } else if (majorDiagonalColumnIndexAtFirstRow >= 0) {
+        for (var i = 0 ; i < this.get('n') - majorDiagonalColumnIndexAtFirstRow ; i++) {
+          if (this.get(i)[majorDiagonalColumnIndexAtFirstRow+i] === 1 && !HAS_ONE) {
+            HAS_ONE = true;
+          } else if (this.get(i)[majorDiagonalColumnIndexAtFirstRow+i] === 1 && HAS_ONE) {
+            return true;
+          }
+        }
+      }
+
       return false; // fixme
     },
 
+    /*
+        [ 0, 1, 2, 3 ]        [ [n-4, n-4] , [n-4, n-3] , [n-4, n-2] , [n-4, n-1] ]
+        [ -1, 01, 02, 03 ]    [ [n-3, n-4] , [n-3, n-3] , [n-3, n-2] , [n-3, n-1] ]
+        [ -2, 01, 02, 03 ]    [ [n-2, n-4] , [n-2, n-3] , [n-2, n-2] , [n-2, n-1] ]
+        [ -3, 01, 02, 03 ]    [ [n-1, n-4] , [n-1, n-3] , [n-1, n-2] , [n-1, n-1] ]
+
+        2 [0,2]
+          [1,3]
+
+        - [1, 0]
+          [2, 1]
+
+        majorDiagonalColumnIndexAtFirstRow = colIndex - rowIndex;
+
+    */
+
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      // loop through column from n-2 to 0 to get starting square
+        // loop through diagonal to see if theer are multiple 1s
+      // loop through the row from 1 to n - 2
       return false; // fixme
     },
 
