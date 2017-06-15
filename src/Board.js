@@ -272,7 +272,7 @@
       var start = 0;
       var end = this.get('n') * 2;
 
-      for ( var i = start; i < end; i++ ){
+      for ( var i = start; i < end; i++ ) {
         if (this.hasMinorDiagonalConflictAt(i)){
           return true;
         }
