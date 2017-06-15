@@ -169,26 +169,48 @@
     },
 
     /*
-        [ 0, 1, 2, 3 ]        [ [n-4, n-4] , [n-4, n-3] , [n-4, n-2] , [n-4, n-1] ]
-        [ -1, 01, 02, 03 ]    [ [n-3, n-4] , [n-3, n-3] , [n-3, n-2] , [n-3, n-1] ]
-        [ -2, 01, 02, 03 ]    [ [n-2, n-4] , [n-2, n-3] , [n-2, n-2] , [n-2, n-1] ]
-        [ -3, 01, 02, 03 ]    [ [n-1, n-4] , [n-1, n-3] , [n-1, n-2] , [n-1, n-1] ]
+        [  0,  1,  2, 3 ]    [ [n-4, n-4] , [n-4, n-3] , [n-4, n-2] , [n-4, n-1] ]
+        [ -1, 01, 02, 4 ]    [ [n-3, n-4] , [n-3, n-3] , [n-3, n-2] , [n-3, n-1] ]
+        [ -2, 01, 02, 5 ]    [ [n-2, n-4] , [n-2, n-3] , [n-2, n-2] , [n-2, n-1] ]
+        [ -3, 01, 02, 6 ]    [ [n-1, n-4] , [n-1, n-3] , [n-1, n-2] , [n-1, n-1] ]
 
-        2 [0,2]
-          [1,3]
+4- size +1
+5- 4 + 1 = 2
 
-        - [1, 0]
-          [2, 1]
+        [00, 01, 02, 03 ]
+        [10, 11, 12, 13 ]
+        [20, 21, 22, 23 ]
+        [30, 31, 32, 33 ]
+
+        1 - 2
+        2 - 3
 
         majorDiagonalColumnIndexAtFirstRow = colIndex - rowIndex;
 
     */
 
+    // if minor index > n
+    // row start = index - size  - 1 = 1
+    // row end = size - 1 = 3
+    //    *diagnonal of 4
+    //    [1][3]  =>  [i][this.get('n')-i]
+    //    [2][2]
+    //    [3][1]
+
+    //                        i = 0; i<=index
+    //    [0][2]  =>  [0][index]   => this.get(i)[index - i]
+    //    [1][1]
+    //    [2][0]
+
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      // loop through column from n-2 to 0 to get starting square
-        // loop through diagonal to see if theer are multiple 1s
-      // loop through the row from 1 to n - 2
+      var start = -1 * (this.get('n') - 1);
+      var end = -1 * start;
+      for ( var i = start; i <= end; i++ ) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -199,6 +221,32 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      //minorDiagonalColumnIndexAtFirstRow = colIndex + rowIndex;
+
+      var HAS_ONE = false;
+      //if minor diagonal is negative
+      if (minorDiagonalColumnIndexAtFirstRow >= this.get('n')) {
+        var start = minorDiagonalColumnIndexAtFirstRow - this.get('n') + 1;   //position 5 ====>  5 - 4 +1 = 2
+        var end = this.get('n') - 1;                                          // 4-1 = 3
+        for (var i = start; i <= end; i++) {
+          if (this.get(i)[this.get('n')+1-i] === 1 && !HAS_ONE) {       //[2][3]
+            HAS_ONE = true;
+          } else if (this.get(i)[this.get('n')+1-i] === 1 && HAS_ONE) {
+            return true;
+          }
+        }
+      } else if (minorDiagonalColumnIndexAtFirstRow < this.get('n')) {
+        var start = 0;
+        var end = minorDiagonalColumnIndexAtFirstRow;
+        for (var i = start; i <= end; i++) {
+          if (this.get(i)[minorDiagonalColumnIndexAtFirstRow - i] === 1 && !HAS_ONE) {
+            HAS_ONE = true;
+          } else if (this.get(i)[minorDiagonalColumnIndexAtFirstRow - i] === 1 && HAS_ONE) {
+            return true;
+          }
+        }
+      }
+
       return false; // fixme
     },
 
