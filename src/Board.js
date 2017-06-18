@@ -185,10 +185,6 @@
         1 - 2
         2 - 3
 
-        n * 2 - index = 4 * 2 - 4 - 1 = 3
-                        4 * 2 - 5 - 1 = 2
-                        4 * 2 - 6 - 1 = 1
-
         majorDiagonalColumnIndexAtFirstRow = colIndex - rowIndex;
 
     */
@@ -230,27 +226,16 @@
       var HAS_ONE = false;
       //if minor diagonal is negative
       if (minorDiagonalColumnIndexAtFirstRow >= this.get('n')) {
-        /*  starting value (with respect to minorDiagonalColumnIndexAtFirstRow) = [minorDiagonalColumnIndexAtFirstRow-n +1, n-1]
-            4x4 grid: when index >= n = [1, 3], [2, 3]
-            5x5 grid: when index >= n = [1, 4], [2, 4], [3, 4]
-
-            for loop:
-              start: 0
-              end: minorDiagonalColumnIndexAtFirstRow - n + 1
-                  n * 2 - index + 1 = 4 * 2 - 4 - 1 = 3
-                                      4 * 2 - 5 - 1 = 2
-                                      4 * 2 - 6 - 1 = 1
-        */
-
-        var start = 0 ;
-        var end = this.get('n') * 2 - minorDiagonalColumnIndexAtFirstRow - 1;
-
-        for (var i = start; i < end; i++) {
-          if (this.get(minorDiagonalColumnIndexAtFirstRow - this.get('n') + 1 + i)[this.get('n')-1-i] === 1 && !HAS_ONE) {       //[2][3]
+        var start = minorDiagonalColumnIndexAtFirstRow - this.get('n') + 1;   //position 5 ====>  5 - 4 +1 = 2
+        var end = this.get('n') - 1;
+        var col = this.get('n') - 1;                         // 4-1 = 3
+        for (var i = start; i <= end; i++) {
+          if (this.get(i)[col] === 1 && !HAS_ONE) {       //[2][3]
             HAS_ONE = true;
-          } else if (this.get(minorDiagonalColumnIndexAtFirstRow - this.get('n') + 1 + i)[this.get('n')-1-i] === 1 && HAS_ONE) {
+          } else if (this.get(i)[col] === 1 && HAS_ONE) {
             return true;
           }
+          col--;
         }
       } else if (minorDiagonalColumnIndexAtFirstRow < this.get('n')) {
         var start = 0;
@@ -269,14 +254,15 @@
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      var start = 0;
-      var end = this.get('n') * 2;
+      var start = 1;
+      var end = (this.get('n')-1)*2;
 
-      for ( var i = start; i < end; i++ ) {
-        if (this.hasMinorDiagonalConflictAt(i)){
+      for (var i = start; i < end; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
           return true;
         }
       }
+
       return false; // fixme
     }
 

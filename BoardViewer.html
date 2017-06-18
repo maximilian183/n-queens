@@ -20,6 +20,9 @@
       .inConflict{
           background-color: red;
       }
+      table {
+        margin: 20px;
+      }
     </style>
   </head>
   <body>
@@ -32,7 +35,35 @@
     <script>
       // This function uses a board visualizer lets you view an interactive version of any piece matrix.
       window.displayBoard = function(matrix){
-        $('body').html(
+        $('body').append(
+          new BoardView({
+            model: new Board(matrix)  // references board.js
+          }).render()
+        );
+      };
+      window.display5Board = function(matrix){
+        $('body').append(
+          new BoardView({
+            model: new Board(matrix)  // references board.js
+          }).render()
+        );
+      };
+      window.display6Board = function(matrix){
+        $('body').append(
+          new BoardView({
+            model: new Board(matrix)  // references board.js
+          }).render()
+        );
+      };
+      window.display7Board = function(matrix){
+        $('body').append(
+          new BoardView({
+            model: new Board(matrix)  // references board.js
+          }).render()
+        );
+      };
+      window.display8Board = function(matrix){
+        $('body').append(
           new BoardView({
             model: new Board(matrix)  // references board.js
           }).render()
@@ -48,6 +79,76 @@
         ]);
 
         var n = 4;
+        findNRooksSolution(n);        //references solvers.js
+        countNRooksSolutions(n);        //references solvers.js
+        findNQueensSolution(n);        //references solvers.js
+        countNQueensSolutions(n);        //references solvers.js
+      });
+      $(function(){
+        // this is a pre-baked solution for n-queens in the n = 4 case, rendered to the screen using our handy visualizer.
+        display5Board([
+          [0, 1, 0, 0, 0],
+          [0, 0, 0, 1, 0],
+          [1, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0],
+          [0, 0, 0, 0, 1]
+        ]);
+
+        var n = 5;
+        findNRooksSolution(n);        //references solvers.js
+        countNRooksSolutions(n);        //references solvers.js
+        findNQueensSolution(n);        //references solvers.js
+        countNQueensSolutions(n);        //references solvers.js
+      });
+      $(function(){
+        // this is a pre-baked solution for n-queens in the n = 4 case, rendered to the screen using our handy visualizer.
+        display6Board([
+          [0, 1, 0, 0, 0, 0],
+          [0, 0, 0, 1, 0, 0],
+          [0, 0, 0, 0, 0, 1],
+          [1, 0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0],
+          [0, 0, 0, 0, 1, 0]
+        ]);
+
+        var n = 6;
+        findNRooksSolution(n);        //references solvers.js
+        countNRooksSolutions(n);        //references solvers.js
+        findNQueensSolution(n);        //references solvers.js
+        countNQueensSolutions(n);        //references solvers.js
+      });
+      $(function(){
+        // this is a pre-baked solution for n-queens in the n = 4 case, rendered to the screen using our handy visualizer.
+        display7Board([
+          [0, 1, 0, 0, 0, 0, 0],
+          [0, 0, 0, 1, 0, 0, 0],
+          [0, 0, 0, 0, 0, 1, 0],
+          [1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0, 0],
+          [0, 0, 0, 0, 1, 0, 0],
+          [0, 0, 0, 0, 0, 0, 1]
+        ]);
+
+        var n = 7;
+        findNRooksSolution(n);        //references solvers.js
+        countNRooksSolutions(n);        //references solvers.js
+        findNQueensSolution(n);        //references solvers.js
+        countNQueensSolutions(n);        //references solvers.js
+      });
+      $(function(){
+        // this is a pre-baked solution for n-queens in the n = 4 case, rendered to the screen using our handy visualizer.
+        display8Board([
+          [0, 1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 1, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 1, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 1],
+          [0, 0, 1, 0, 0, 0, 0, 0],
+          [1, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 1, 0],
+          [0, 0, 0, 0, 1, 0, 0, 0]
+        ]);
+
+        var n = 8;
         findNRooksSolution(n);        //references solvers.js
         countNRooksSolutions(n);        //references solvers.js
         findNQueensSolution(n);        //references solvers.js
